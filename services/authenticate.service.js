@@ -1,13 +1,15 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
+const Branch = require("../models/branch.model");
 
 const authenticate = asyncHandler(async (req, res, next) => {
   try {
     let token;
 
-    const authorizationHeader = req.headers["authorization"] || req.headers["Authorization"];
-    if (authorizationHeader && authorizationHeader.startsWith("Bearer ")) {
+    const authorizationHeader =
+      req.headers["authorization"] || req.headers["Authorization"];
+    if (authorizationHeader && authorizationHeader.startsWith("Bearar")) {
       token = authorizationHeader.split(" ")[1];
     } else {
       return res.status(401).send({
@@ -32,11 +34,17 @@ const authenticate = asyncHandler(async (req, res, next) => {
       });
     }
 
+    if (user.branch) {
+      var branch = await Branch.findById(user.branch);
+      req.branch = branch;
+    }
+
     req.user = user;
     next();
   } catch (error) {
+    console.log(error);
     return res.status(401).send({
-      message: "Authentication failed!",
+      message: "Authentication failed! , " + error.message,
     });
   }
 });
