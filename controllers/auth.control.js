@@ -41,7 +41,7 @@ const authController = {
     await newLog.save();
 
     let token = generateToken(user._id);
-    res.send({ token: `Bearar ${token}` });
+    res.send({ token: `Bearar ${token}`, data: user });
   }),
 
   logout: asyncHandler(async (req, res) => {
