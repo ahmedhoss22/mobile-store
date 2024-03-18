@@ -37,6 +37,9 @@ const authController = {
       return res.status(400).send({ message: "Invalid username or password" });
     }
 
+    if(data.branch != user.branch){
+      return res.status(400).send({ message: "User not in this branch !!" });
+    }
     let newLog = new Logs({ type: "Login", user: user._id });
     await newLog.save();
 

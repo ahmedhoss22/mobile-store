@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { default: mongoose } = require("mongoose");
 const passwordExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 module.exports = {
@@ -24,6 +25,12 @@ module.exports = {
     password: Joi.string().required().messages({
       "string.required": "password is required",
     }),
+    branch: Joi.string().required().custom((value, helpers) => {
+      if (!mongoose.Types.ObjectId.isValid(value)) {
+          return helpers.message('Invalid ObjectID for branch');
+      }
+      return value;
+  })
   }),
   adminRegistration: Joi.object().keys({
     name: Joi.string().min(3).max(30).required().messages({

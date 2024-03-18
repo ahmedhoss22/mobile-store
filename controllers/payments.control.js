@@ -5,9 +5,9 @@ const asyncHandler = require("express-async-handler");
 
 const paymentsCtl = {
   addPament: asyncHandler(async (req, res) => {
-    let source = await Equipment.findById(req.source);
+    let source = await Equipment.findById(req.body.source);
     if (!source) {
-      res.status(400).send({
+     return res.status(400).send({
         message: "Source id is invalid",
       });
     }
@@ -21,16 +21,22 @@ const paymentsCtl = {
     }
 
     //update balance
+    console.log();
     source.balance -= amount;
     await source.save();
+
     let branch = await Branch.findById(source.branch);
     branch.balance += req.body.amount;
     await branch.save();
 
-    let newPayment = new Payments(req.body);
+    let newPayment = new Payments({
+      ...req.body,
+      user: req.user._id,
+      branch: req.branch._id,
+    });
     await newPayment.save();
 
-    res.status(201).send({ message: "Payment is submitted !!" });
+    res.status(201).send({ message: "Payment is submitted !!" , data: newPayment });
   }),
   getPayments: asyncHandler(async (req, res) => {
     let data = await Payments.find().populate("source");

@@ -15,6 +15,6 @@ router
 router
   .route("/:id")
   .patch(validateParamsId, paymentsCtl.updatePayments)
-  .get(validateParamsId, paymentsCtl.getPayments);
+  .delete(validateParamsId, paymentsCtl.deletePayment);
 
 module.exports = router;
