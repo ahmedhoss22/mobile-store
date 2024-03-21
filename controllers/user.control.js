@@ -8,7 +8,7 @@ const userCtl= {
     }),
     getAllUsers : asyncHandler(async(req,res)=>{
         let users = await User.find()
-        res.send(users)
+        res.json(users)
     }),
     deleteUser :asyncHandler(async(req,res)=>{
         let id = req.params.id

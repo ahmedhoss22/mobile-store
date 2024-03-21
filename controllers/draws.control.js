@@ -34,7 +34,7 @@ const drawsCtl = {
   }),
   getDraws: asyncHandler(async (req, res) => {
     let data = await Draws.find().populate("source");
-    res.send(data);
+    res.json(data);
   }),
   updateDraws: asyncHandler(async (req, res) => {
     let { id } = req.params;

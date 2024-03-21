@@ -21,7 +21,6 @@ const paymentsCtl = {
     }
 
     //update balance
-    console.log();
     source.balance -= amount;
     await source.save();
 
@@ -40,7 +39,7 @@ const paymentsCtl = {
   }),
   getPayments: asyncHandler(async (req, res) => {
     let data = await Payments.find().populate("source");
-    res.send(data);
+    res.json(data);
   }),
   updatePayments: asyncHandler(async (req, res) => {
     let { id } = req.params;

@@ -30,7 +30,7 @@ const branchCtl = {
   }),
   getAllBranches: asyncHandler(async (req, res) => {
     let data = await Branch.find();
-    res.send(data);
+    res.json(data);
   }),
   deleteBranch: asyncHandler(async (req, res) => {
     let id = req.params.id;

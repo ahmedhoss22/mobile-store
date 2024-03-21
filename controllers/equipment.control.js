@@ -23,7 +23,7 @@ const equipmentCtl = {
   }),
   getAllEquipmentes: asyncHandler(async (req, res) => {
     let data = await Equipment.find({ branch: req.params.id });
-    res.send(data);
+    res.json(data);
   }),
   deleteEquipment: asyncHandler(async (req, res) => {
     let id = req.params.id;
