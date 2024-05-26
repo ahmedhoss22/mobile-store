@@ -2,6 +2,8 @@ const User = require("../models/user.model");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../services/jwt.service");
 const { Logs, WorkingHours } = require("../models/workHours.model");
+const Equipment = require("../models/equipment.model")
+const Branch = require("../models/branch.model");
 
 const authController = {
   register: asyncHandler(async (req, res) => {
@@ -37,7 +39,7 @@ const authController = {
       return res.status(400).send({ message: "Invalid username or password" });
     }
 
-    if(data.branch != user.branch){
+    if (data.branch != user.branch) {
       return res.status(400).send({ message: "User not in this branch !!" });
     }
     let newLog = new Logs({ type: "Login", user: user._id });
@@ -45,6 +47,7 @@ const authController = {
 
     let token = generateToken(user._id);
     res.send({ token: `Bearar ${token}`, data: user });
+
   }),
 
   logout: asyncHandler(async (req, res) => {
@@ -75,6 +78,16 @@ const authController = {
     await Logs.findByIdAndDelete(userLog._id);
     res.send({ message: "Loged out !!" });
   }),
+
+  balanceWhileLogin: asyncHandler(async (req, res) => {
+    const { balance, equipments } = req.body;
+
+    await Branch.findByIdAndUpdate(req.user.branch, { balance })
+    await Promise.all(equipments.map(async (equipment) => {
+      await Equipment.findByIdAndUpdate(equipment._id, { balance: equipment.balance });
+    }));
+    res.send({ message: "Balances updated successfully" });
+  })
 };
 
 module.exports = authController;

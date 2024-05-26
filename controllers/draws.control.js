@@ -10,7 +10,6 @@ const drawsCtl = {
         message: "Source id is invalid",
       });
     }
-
     //check for source balance
     const amount = req.body.amount;
     if (source.balance < amount) {

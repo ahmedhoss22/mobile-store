@@ -9,7 +9,8 @@ const authenticate = asyncHandler(async (req, res, next) => {
 
     const authorizationHeader =
       req.headers["authorization"] || req.headers["Authorization"];
-    if (authorizationHeader && authorizationHeader.startsWith("Bearar")) {
+      console.log();
+    if (authorizationHeader && (authorizationHeader.startsWith("Bearar") ||authorizationHeader.startsWith("Bearer")  )) {
       token = authorizationHeader.split(" ")[1];
     } else {
       return res.status(401).send({

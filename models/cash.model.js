@@ -14,4 +14,4 @@ const CasshSchema = new Schema({
 })
 
 const Cash = mongoose.model("Cash", CasshSchema)
-module.exports = Cash
+module.exports = Cash;

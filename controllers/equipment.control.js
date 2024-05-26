@@ -7,7 +7,7 @@ const equipmentCtl = {
     let newEquipment = new Equipment(data);
     await newEquipment.save();
 
-    res.status(201).send(newEquipment);
+    res.status(201).json(newEquipment);
   }),
 
   updateEquipment: asyncHandler(async (req, res) => {
@@ -19,7 +19,7 @@ const equipmentCtl = {
     if (!updatedEquipment) {
       return res.status(400).send({ message: "Equipment not found !!" });
     }
-    res.send(updatedEquipment);
+    res.json(updatedEquipment);
   }),
   getAllEquipmentes: asyncHandler(async (req, res) => {
     let data = await Equipment.find({ branch: req.params.id });

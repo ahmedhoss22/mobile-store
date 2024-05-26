@@ -1,4 +1,4 @@
-const router = require("express").Router()
+const router = require("express").Router();
 const cashCtl = require("../controllers/cash.control")
 const { validate, validateParamsId } = require("../services/validate.service");
 const { addCash ,updateCash } = require("../validations/cash.validate");
@@ -14,4 +14,4 @@ router.route("/:id",)
     .patch(validateParamsId, authorizeUser, validate(updateCash), cashCtl.updateCash)
     .delete(validateParamsId, authorizeUser, cashCtl.deleteCash)
 
-module.exports = router
+module.exports = router;
