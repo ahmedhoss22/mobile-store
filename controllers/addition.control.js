@@ -46,9 +46,6 @@ const AdditionsCtl = {
   }),
   getAllAdditionses: asyncHandler(async (req, res) => {
     let data = await Additions.find();
-    //add branch details
-    let branch =req.branch
-    data.push({amount : branch.balance , _id :branch._id , name :"درج"})
     res.json(data);
   }),
   deleteAdditions: asyncHandler(async (req, res) => {
