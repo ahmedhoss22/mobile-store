@@ -11,8 +11,8 @@ const equipmentCtl = {
         { branch: data.branch }
       ]
     });
-    if(dublicated){
-      return res.status(400).send({message:"This Equipment with this name is already exist !!"})
+    if (dublicated) {
+      return res.status(400).send({ message: "This Equipment with this name is already exist !!" })
     }
 
     let newEquipment = new Equipment(data);
@@ -34,6 +34,10 @@ const equipmentCtl = {
   }),
   getAllEquipmentes: asyncHandler(async (req, res) => {
     let data = await Equipment.find({ branch: req.params.id });
+    //add branch details
+    let branch = req.branch
+    data.push({ amount: branch.balance, _id: branch._id, name: "درج" })
+
     res.json(data);
   }),
   deleteEquipment: asyncHandler(async (req, res) => {

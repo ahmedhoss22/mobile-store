@@ -5,9 +5,11 @@ const Payments = require("../models/payment.model");
 const Cash = require("../models/cash.model");
 
 const reportCtl = {
-    payments : asyncHandler((req,res)=>{
-      // let data =
-    })
+    payments : asyncHandler(async (req,res)=>{
+      let data = await Payments.find({inshift:true})
+      res.json(data)
+    }),
+    
 }
 
 module.exports = reportCtl
