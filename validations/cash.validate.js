@@ -18,7 +18,7 @@ module.exports = {
         }
         return value;
       }),
-      type:Joi.string().required().valid("draw","deposit"),
+      type:Joi.string().required().valid("withdraw","deposit"),
   }),
   updateCash: Joi.object().keys({
     amount: Joi.number().min(0).messages({
@@ -36,7 +36,7 @@ module.exports = {
         }
         return value;
       }),
-      type:Joi.string().valid("draw","deposit"),
+      type:Joi.string().valid("withdraw","deposit"),
       _id:Joi.string(),
       __v:Joi.string(),
   }),

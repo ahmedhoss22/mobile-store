@@ -22,7 +22,7 @@ const CashCtl = {
     }
 
     //check for branch balance if withdraw
-    let branch = await Branch.findById(data.branch)
+    let branch = await Branch.findById(req.branch._id)
     if (data.type == "withdraw" && branch.balance < amount) {
       return res.status(400).send({ message: "The cash in branch not enough for withdraw" })
     }
@@ -68,7 +68,7 @@ const CashCtl = {
     }
 
     //check for branch balance if withdraw
-    let branch = await Branch.findById(data.branch)
+    let branch = await Branch.findById(req.branch._id)
     if (data.type == "withdraw" && branch.balance < amount) {
       return res.status(400).send({ message: "The cash in branch not enough for withdraw" })
     }

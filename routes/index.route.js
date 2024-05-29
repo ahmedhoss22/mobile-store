@@ -8,6 +8,7 @@ const paymentsRoutes = require("./payments.route")
 const drawsRoutes = require("./draws.route")
 const additionRoutes = require("./addition.route")
 const cashRoutes = require("./cash.route")
+const reportsRoutes = require("./reports.route")
 
 router.use("/auth", authRoutes);
 router.use("/user", userRoutes);
@@ -17,5 +18,6 @@ router.use("/draws", drawsRoutes);
 router.use("/payments", paymentsRoutes);
 router.use("/addition", additionRoutes);
 router.use("/cash", cashRoutes);
+router.use("/report", reportsRoutes);
 
 module.exports = router;
