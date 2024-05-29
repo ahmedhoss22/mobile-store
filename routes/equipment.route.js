@@ -13,7 +13,7 @@ router
 
 router
   .route("/:id")
-  .get(validateParamsId,equipmentCtl.getAllEquipmentes)
+  .get(validateParamsId,authorizeUser,equipmentCtl.getAllEquipmentes)
   .delete(validateParamsId,authorizeAdmin, equipmentCtl.deleteEquipment)
   .patch(validateParamsId,authorizeAdmin, equipmentCtl.updateEquipment);
 

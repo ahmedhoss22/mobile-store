@@ -9,7 +9,23 @@ const reportCtl = {
       let data = await Payments.find({inshift:true})
       res.json(data)
     }),
-    
+    additions : asyncHandler(async (req,res)=>{
+      let data = await Additions.find({inshift:true})
+      res.json(data)
+    }),
+    draws : asyncHandler(async (req,res)=>{
+      let data = await Draws.find({inshift:true})
+      res.json(data)
+    }),
+    cashDeposite : asyncHandler(async (req,res)=>{
+      let data = await Cash.find({inshift:true , type:"deposit"})
+      res.json(data)
+    }),
+    cashWithdraw : asyncHandler(async (req,res)=>{
+      let data = await Cash.find({inshift:true , type:"deposit"})
+      res.json(data)
+    }),
+
 }
 
 module.exports = reportCtl

@@ -36,6 +36,7 @@ const equipmentCtl = {
     let data = await Equipment.find({ branch: req.params.id });
     //add branch details
     let branch = req.branch
+    console.log(branch);
     data.push({ amount: branch.balance, _id: branch._id, name: "درج" })
 
     res.json(data);
