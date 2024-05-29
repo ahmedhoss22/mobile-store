@@ -1,9 +1,20 @@
 const Additions = require("../models/additions.model");
 const asyncHandler = require("express-async-handler");
+const Equipment = require("../models/equipment.model")
 
 const AdditionsCtl = {
   addAdditions: asyncHandler(async (req, res) => {
     let data = req.body;
+
+    let equipment = await Equipment.findById(data.source)
+    if (!equipment) {
+      return res.status(400).send({ message: "Invalid source Id" })
+    }
+
+    //update source balance
+    equipment.balance += data.amount
+    await equipment.save()
+
     let newAdditions = new Additions({
       ...data,
       user: req.user._id,

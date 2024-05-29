@@ -7,6 +7,7 @@ const paymentsSchema = new Schema({
   source: { type: mongoose.Types.ObjectId, required: true , ref:"Equipment" },
   user: { type: mongoose.Types.ObjectId, required: true , ref:"User" },
   branch: { type: mongoose.Types.ObjectId, required: true , ref:"Branch" },
+  inshift:{type :Boolean , default:true}
 },{
   timestamps:true
 });

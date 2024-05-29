@@ -13,7 +13,7 @@ const paymentsCtl = {
     }
 
     //check for source balance
-    const amount = req.body.amount - req.body.commission;
+    const amount = req.body.amount ;
     if (source.balance < amount) {
       res.status(400).send({
         message: `Balance of ${source.name} is not enough !!`,
@@ -25,7 +25,7 @@ const paymentsCtl = {
     await source.save();
 
     let branch = await Branch.findById(source.branch);
-    branch.balance += req.body.amount;
+    branch.balance += req.body.amount + req.body.commission;
     await branch.save();
 
     let newPayment = new Payments({

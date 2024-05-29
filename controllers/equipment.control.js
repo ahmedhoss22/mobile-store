@@ -4,6 +4,17 @@ const asyncHandler = require("express-async-handler");
 const equipmentCtl = {
   addEquipment: asyncHandler(async (req, res) => {
     let data = req.body;
+
+    let dublicated = await Equipment.findOne({
+      $and: [
+        { name: data.name },
+        { branch: data.branch }
+      ]
+    });
+    if(dublicated){
+      return res.status(400).send({message:"This Equipment with this name is already exist !!"})
+    }
+
     let newEquipment = new Equipment(data);
     await newEquipment.save();
 
