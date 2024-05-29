@@ -1,19 +1,28 @@
 const Additions = require("../models/additions.model");
 const asyncHandler = require("express-async-handler");
 const Equipment = require("../models/equipment.model")
+const Branch = require("../models/branch.model")
 
 const AdditionsCtl = {
   addAdditions: asyncHandler(async (req, res) => {
     let data = req.body;
 
     let equipment = await Equipment.findById(data.source)
-    if (!equipment) {
+    let branch = await Branch.findById(data.source)
+    if (!equipment && !branch) {
       return res.status(400).send({ message: "Invalid source Id" })
     }
 
     //update source balance
-    equipment.balance += data.amount
-    await equipment.save()
+    if (equipment) {
+      equipment.balance += data.amount
+      await equipment.save()
+    }
+
+    if (branch) {
+      branch.balance += data.amount
+      await branch.save()
+    }
 
     let newAdditions = new Additions({
       ...data,
@@ -37,6 +46,9 @@ const AdditionsCtl = {
   }),
   getAllAdditionses: asyncHandler(async (req, res) => {
     let data = await Additions.find();
+    //add branch details
+    let branch =req.branch
+    data.push({amount : branch.balance , _id :branch._id , name :"درج"})
     res.json(data);
   }),
   deleteAdditions: asyncHandler(async (req, res) => {
