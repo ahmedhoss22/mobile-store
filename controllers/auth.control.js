@@ -3,7 +3,11 @@ const asyncHandler = require("express-async-handler");
 const generateToken = require("../services/jwt.service");
 const { Logs, WorkingHours } = require("../models/workHours.model");
 const Equipment = require("../models/equipment.model")
+const Paymets = require("../models/payment.model")
+const BalanceSum = require("../models/balanceSum.model")
 const Branch = require("../models/branch.model");
+const Draws = require("../models/draws.model");
+const Cash = require("../models/cash.model");
 
 const authController = {
   register: asyncHandler(async (req, res) => {
@@ -82,10 +86,37 @@ const authController = {
   balanceWhileLogin: asyncHandler(async (req, res) => {
     const { balance, equipments } = req.body;
 
+    //save balances while login 
+    let newBalanceSum = new BalanceSum({ ...req.body, branch: req.user.branch })
+    await newBalanceSum.save()
+
+    //update the equipment balances
     await Branch.findByIdAndUpdate(req.user.branch, { balance })
     await Promise.all(equipments.map(async (equipment) => {
       await Equipment.findByIdAndUpdate(equipment._id, { balance: equipment.balance });
     }));
+    res.send({ message: "Balances updated successfully" });
+  }),
+
+  balanceWhileLogout: asyncHandler(async (req, res) => {
+    const { balance, equipments } = req.body;
+
+    //save balances while login 
+    let loginBalance = await BalanceSum.findOne({ branch: req.branch._id })
+    let allPayments = await Paymets.find({inshift : true})
+    let allWithDraw = await Draws.find({inshift:true})
+    let allCash = await Cash.find({inshift:true})
+
+    //get total value for each 
+    let totalPayments = allPayments.reduce((prev , cur) =>prev+=cur.amount ,0)
+    let totalWithDraw = allWithDraw.reduce((prev , cur) =>prev+=cur.amount ,0)
+
+    //deposite or withdraw
+    let totalCash = allCash.reduce((prev , cur) =>prev+=cur.amount ,0)
+
+    console.log(totalPayments,totalWithDraw ,totalCash );
+    // let totalShift = 
+
     res.send({ message: "Balances updated successfully" });
   })
 };

@@ -11,6 +11,7 @@ router.post("/register", validate(registerationSchema), authControl.register)
 router.post("/register-admin", validate(adminRegistration), authControl.adminRegister)
 
 router.post("/balance-login", authorizeUser, validate(balanceWhileLoginSchema), authControl.balanceWhileLogin)
+router.post("/balance-logout", authorizeUser, validate(balanceWhileLoginSchema), authControl.balanceWhileLogout)
 
 router.post("/login", validate(loginSchema), authControl.login)
 

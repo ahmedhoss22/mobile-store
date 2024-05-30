@@ -95,7 +95,7 @@ const CashCtl = {
     res.status(201).send({ message: "Cash is submitted !!", data: newCash });
   }),
   getInternalCash: asyncHandler(async (req, res) => {
-    let data = await Cash.find({ cashType: "internal" }).populate("source");
+    let data = await Cash.find({ cashType: "internal",branch:req.branch._id }).populate("source");
     res.json(data);
   }),
   getExternalCash: asyncHandler(async (req, res) => {

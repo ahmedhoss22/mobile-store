@@ -38,7 +38,7 @@ const paymentsCtl = {
     res.status(201).send({ message: "Payment is submitted !!" , data: newPayment });
   }),
   getPayments: asyncHandler(async (req, res) => {
-    let data = await Payments.find().populate("source");
+    let data = await Payments.find({branch:req.branch._id}).populate("source");
     res.json(data);
   }),
   updatePayments: asyncHandler(async (req, res) => {
